@@ -35,12 +35,9 @@ public class SecretariatService implements ISecretariatService {
 
 			secretariatRepository.save(createdSecretariat);
 			return new ResponseDTO(SUCCESSFULLY_CREATED);
-//			return new ResponseDTO(DOES_EXIST);
 		}
 
 		return new ResponseDTO(DOES_EXIST);
-//		secretariatRepository.save(secretariat);
-//		return new ResponseDTO(SUCCESSFULLY_CREATED);
 	}
 
 	public Secretariat readSecretariat(Long idSecretariat) {
