@@ -98,6 +98,8 @@ public class EmployeeService implements IEmployeeService {
 	public ResponseDTO deleteEmployee(Long idEmployee) {
 
 		if (employeeRepository.existsById(idEmployee)) {
+			
+			adjustsPayrollBudgetWhenEmployeeDeleted(idEmployee);
 			employeeRepository.deleteById(idEmployee);
 			
 			return new ResponseDTO(SUCESSFULLY_DELETED);
@@ -163,6 +165,20 @@ public class EmployeeService implements IEmployeeService {
 			secretariatRepository.save(newAnalizedSecretariat);
 			
 		}
+		
+	}
+	
+	private void adjustsPayrollBudgetWhenEmployeeDeleted(Long idEmployee) {
+		
+		Optional<Employee> employee = employeeRepository.findById(idEmployee);
+		Employee deletedEmployee = employee.get();
+		
+		Long idSecretariat = deletedEmployee.getSecretariat().getIdSecretariat();
+		Optional<Secretariat> secretariat = secretariatRepository.findById(idSecretariat);
+		Secretariat updatedSecretariat = secretariat.get();
+		
+		updatedSecretariat.setPayrollBudget(updatedSecretariat.getPayrollBudget() + deletedEmployee.getSalary());
+		secretariatRepository.save(updatedSecretariat);
 		
 	}
 	
