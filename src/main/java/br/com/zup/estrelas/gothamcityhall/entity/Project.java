@@ -31,7 +31,7 @@ public class Project {
 	private Double cost;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_secretariat", foreignKey=@ForeignKey(name="FK_ID_SECRETARIAT"))
+	@JoinColumn(name = "id_secretariat", foreignKey=@ForeignKey(name="FK_ID_SECRETARIAT_PROJECT"))
     private Secretariat secretariat;
 	
     @Column(nullable = false)

@@ -14,7 +14,7 @@ public interface ISecretariatService {
 	
 	public List<Secretariat> listSecretariats();
 
-	public ResponseDTO updateSecretariat(Long idSecretariat, SecretariatDTO secretariat);
+	public ResponseDTO updateSecretariat(Long idSecretariat, SecretariatDTO secretariatDTO);
 	
 	public ResponseDTO deleteSecretariat(Long idSecretariat);
 	

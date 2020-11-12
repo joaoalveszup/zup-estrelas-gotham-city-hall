@@ -31,7 +31,7 @@ public class Employee {
 	private Double salary;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_secretariat", foreignKey=@ForeignKey(name="FK_ID_SECRETARIAT"))
+	@JoinColumn(name = "id_secretariat", foreignKey=@ForeignKey(name="FK_ID_SECRETARIAT_EMPLOYEE"))
     private Secretariat secretariat;
 	
     @Column(nullable = false)
@@ -41,7 +41,7 @@ public class Employee {
     private boolean isPermanent;
     
     @Column(nullable = false)
-    private LocalDate startingDate;
+    private LocalDate startingDate = LocalDate.now();
 
     // Getters and Setters
     
@@ -77,20 +77,8 @@ public class Employee {
 		this.salary = salary;
 	}
 
-	public Secretariat getSecretariat() {
-		return secretariat;
-	}
-
 	public void setSecretariat(Secretariat secretariat) {
 		this.secretariat = secretariat;
-	}
-
-	public boolean isPermanent() {
-		return isPermanent;
-	}
-
-	public void setPermanent(boolean isPermanent) {
-		this.isPermanent = isPermanent;
 	}
 
 	public String getRole() {
@@ -101,11 +89,11 @@ public class Employee {
 		this.role = role;
 	}
 
-	public boolean isPermanentEmployee() {
+	public boolean isPermanent() {
 		return isPermanent;
 	}
 
-	public void setPermanentEmployee(boolean isPermanent) {
+	public void setPermanent(boolean isPermanent) {
 		this.isPermanent = isPermanent;
 	}
 
@@ -116,4 +104,5 @@ public class Employee {
 	public void setStartingDate(LocalDate startingDate) {
 		this.startingDate = startingDate;
 	}
+
 }

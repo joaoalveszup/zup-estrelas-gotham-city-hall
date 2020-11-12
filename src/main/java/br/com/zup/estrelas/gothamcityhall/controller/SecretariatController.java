@@ -31,12 +31,12 @@ public class SecretariatController {
 	}
 
 	@GetMapping(path = "/{idSecretariat}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public Secretariat secretariat(@PathVariable Long idSecretariat) {
+	public Secretariat readSecretariat(@PathVariable Long idSecretariat) {
 		return secretariatService.readSecretariat(idSecretariat);
 	}
 
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-	public List<Secretariat> secretariats() {
+	public List<Secretariat> listSecretariats() {
 		return secretariatService.listSecretariats();
 	}
 
