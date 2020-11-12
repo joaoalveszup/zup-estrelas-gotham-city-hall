@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import br.com.zup.estrelas.gothamcityhall.enums.Department;
 
 @Entity
@@ -46,10 +48,12 @@ public class Secretariat {
 	@Column(nullable = false)
 	private String email;
 	
+	@JsonManagedReference
 	@OneToMany
 	@JoinColumn(name = "id_secretariat")
 	private List<Employee> employees;
 	
+	@JsonManagedReference
 	@OneToMany
 	@JoinColumn(name = "id_secretariat")
 	private List<Project> projects;

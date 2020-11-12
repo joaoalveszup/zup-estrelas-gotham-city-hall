@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "project")
 public class Project {
@@ -30,6 +32,7 @@ public class Project {
 	@Column(nullable = false)
 	private Double cost;
 	
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "id_secretariat", foreignKey=@ForeignKey(name="FK_ID_SECRETARIAT_PROJECT"))
     private Secretariat secretariat;
