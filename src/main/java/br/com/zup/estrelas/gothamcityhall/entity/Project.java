@@ -38,13 +38,12 @@ public class Project {
     private Secretariat secretariat;
 	
     @Column(nullable = false)
-	private LocalDate startingDate;
+	private LocalDate startingDate = LocalDate.now();
     
-    @Column(nullable = false)
 	private LocalDate finishingDate;
 	
     @Column(nullable = false)
-	private boolean isFinished;
+	private boolean isFinished = false;
 
     // Getters and Setters
     
