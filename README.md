@@ -83,7 +83,7 @@
 #### #Secretariat
 | REQUEST | URL |
 |--|--|
-| POST - `creatSecretariat`| localhost:8080/secretariats/ |
+| POST - `createSecretariat`| localhost:8080/secretariats/ |
 | GET - `readSecretariat`| localhost:8080/secretariats/{id}/ |
 | GET - `listSecretariat`| localhost:8080/secretariats/ |
 | PUT - `updateSecretariat`| localhost:8080/secretariats/{id}/ |
@@ -139,6 +139,18 @@
     "description":  "Zup project",
     "cost":  "0000.00",
     "secretariat":  "{idSecretariat}"
+    }
+
+*updateProject*
+
+    {
+    "description":  "Outside the box"
+    }
+
+*finishProject*
+
+    {
+    "finishingDate":  "YYYY-MM-DD"
     }
 
 ## Lincense
