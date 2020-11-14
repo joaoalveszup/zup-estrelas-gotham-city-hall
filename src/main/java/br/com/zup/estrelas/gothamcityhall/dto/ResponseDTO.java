@@ -11,5 +11,24 @@ public class ResponseDTO {
     public String getResponse() {
         return response;
     }
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ResponseDTO other = (ResponseDTO) obj;
+		if (response == null) {
+			if (other.response != null)
+				return false;
+		} else if (!response.equals(other.response))
+			return false;
+		return true;
+	}
+    
+    
 	
 }
