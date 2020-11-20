@@ -22,32 +22,33 @@ import br.com.zup.estrelas.gothamcityhall.service.IEmployeeService;
 @RequestMapping("/employees")
 public class EmployeeController {
 
-	@Autowired
-	IEmployeeService employeeService;
-	
-	@PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseDTO createSecretariat(@RequestBody EmployeeDTO employee) {
-		return employeeService.createEmployee(employee);
-	}
-	
-	@GetMapping(path = "/{idEmployee}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public Employee readEmployee(@PathVariable Long idEmployee) {
-		return employeeService.readEmployee(idEmployee);
-	}
-	
-	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-	public List<Employee> listSecretariat() {
-		return employeeService.listEmployee();
-	}
-	
-	@PutMapping(path = "/{idEmployee}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseDTO updateEmployee(@PathVariable Long idEmployee, @RequestBody EmployeeDTO employee) {
-		return employeeService.updateEmployee(idEmployee, employee);
-	}
-	
-	@DeleteMapping(path = "/{idEmployee}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseDTO deleteEmployee(@PathVariable Long idEmployee) {
-		return employeeService.deleteEmployee(idEmployee);
-	}
-	
+    @Autowired
+    IEmployeeService employeeService;
+
+    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseDTO createSecretariat(@RequestBody EmployeeDTO employee) {
+        return employeeService.createEmployee(employee);
+    }
+
+    @GetMapping(path = "/{idEmployee}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Employee readEmployee(@PathVariable Long idEmployee) {
+        return employeeService.readEmployee(idEmployee);
+    }
+
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    public List<Employee> listSecretariat() {
+        return employeeService.listEmployee();
+    }
+
+    @PutMapping(path = "/{idEmployee}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseDTO updateEmployee(@PathVariable Long idEmployee,
+            @RequestBody EmployeeDTO employee) {
+        return employeeService.updateEmployee(idEmployee, employee);
+    }
+
+    @DeleteMapping(path = "/{idEmployee}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseDTO deleteEmployee(@PathVariable Long idEmployee) {
+        return employeeService.deleteEmployee(idEmployee);
+    }
+
 }

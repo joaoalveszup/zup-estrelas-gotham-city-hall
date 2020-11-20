@@ -22,32 +22,33 @@ import br.com.zup.estrelas.gothamcityhall.service.ISecretariatService;
 @RequestMapping("/secretariats")
 public class SecretariatController {
 
-	@Autowired
-	ISecretariatService secretariatService;
+    @Autowired
+    ISecretariatService secretariatService;
 
-	@PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseDTO createSecretariat(@RequestBody SecretariatDTO secretariat) {
-		return secretariatService.createSecretariat(secretariat);
-	}
+    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseDTO createSecretariat(@RequestBody SecretariatDTO secretariat) {
+        return secretariatService.createSecretariat(secretariat);
+    }
 
-	@GetMapping(path = "/{idSecretariat}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public Secretariat readSecretariat(@PathVariable Long idSecretariat) {
-		return secretariatService.readSecretariat(idSecretariat);
-	}
+    @GetMapping(path = "/{idSecretariat}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Secretariat readSecretariat(@PathVariable Long idSecretariat) {
+        return secretariatService.readSecretariat(idSecretariat);
+    }
 
-	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-	public List<Secretariat> listSecretariats() {
-		return secretariatService.listSecretariats();
-	}
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    public List<Secretariat> listSecretariats() {
+        return secretariatService.listSecretariats();
+    }
 
-	@PutMapping(path = "/{idSecretariat}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseDTO updateSecretariat(@PathVariable Long idSecretariat, @RequestBody SecretariatDTO secretariat) {
-		return secretariatService.updateSecretariat(idSecretariat, secretariat);
-	}
+    @PutMapping(path = "/{idSecretariat}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseDTO updateSecretariat(@PathVariable Long idSecretariat,
+            @RequestBody SecretariatDTO secretariat) {
+        return secretariatService.updateSecretariat(idSecretariat, secretariat);
+    }
 
-	@DeleteMapping(path = "/{idSecretariat}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseDTO deleteSecretariat(@PathVariable Long idSecretariat) {
-		return secretariatService.deleteSecretariat(idSecretariat);
-	}
-	
+    @DeleteMapping(path = "/{idSecretariat}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseDTO deleteSecretariat(@PathVariable Long idSecretariat) {
+        return secretariatService.deleteSecretariat(idSecretariat);
+    }
+
 }

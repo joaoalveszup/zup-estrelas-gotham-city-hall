@@ -18,117 +18,117 @@ import br.com.zup.estrelas.gothamcityhall.repository.SecretariatRepository;
 @Service
 public class ProjectService implements IProjectService {
 
-	private static final String DOES_NOT_EXIST = "THIS PROJECT DOES NOT EXIST";
-	private static final String SECRETARIAT_DOES_NOT_EXIST = "THIS SECRETARIAT DOES NOT EXIST";
-	private static final String SUCCESSFULLY_CREATED = "THE PROJECT WAS SUCCESSFULLY CREATED";
-	private static final String SUCESSFULLY_UPDATED = "THE PROJECT WAS SUCCESSFULLY UPDATED";
-	private static final String SUCESSFULLY_FINISHED = "THE PROJECT WAS SUCCESSFULLY FINISHED";
-	private static final String INSUFFICIENT_PROJECT_BUDGET = "THE SECRETARIAT HAS NO BUDGET TO ACCEPT THIS PROJECT";
-	private static final String INVALID_DATE = "THE DATE MUST BE AFTER THE STARTING PROJECT DATE";
+    private static final String DOES_NOT_EXIST = "THIS PROJECT DOES NOT EXIST";
+    private static final String SECRETARIAT_DOES_NOT_EXIST = "THIS SECRETARIAT DOES NOT EXIST";
+    private static final String SUCCESSFULLY_CREATED = "THE PROJECT WAS SUCCESSFULLY CREATED";
+    private static final String SUCESSFULLY_UPDATED = "THE PROJECT WAS SUCCESSFULLY UPDATED";
+    private static final String SUCESSFULLY_FINISHED = "THE PROJECT WAS SUCCESSFULLY FINISHED";
+    private static final String INSUFFICIENT_PROJECT_BUDGET = "THE SECRETARIAT HAS NO BUDGET TO ACCEPT THIS PROJECT";
+    private static final String INVALID_DATE = "THE DATE MUST BE AFTER THE STARTING PROJECT DATE";
 
-	@Autowired
-	ProjectRepository projectRepository;
+    @Autowired
+    ProjectRepository projectRepository;
 
-	@Autowired
-	SecretariatRepository secretariatRepository;
+    @Autowired
+    SecretariatRepository secretariatRepository;
 
-	public ResponseDTO createProject(CreateProjectDTO projectDTO) {
+    public ResponseDTO createProject(CreateProjectDTO projectDTO) {
 
-		Optional<Secretariat> secretariat = secretariatRepository.findById(projectDTO.getSecretariat());
-		if (secretariat.isEmpty()) {
-			return new ResponseDTO(SECRETARIAT_DOES_NOT_EXIST);
-		}
+        Optional<Secretariat> secretariat = secretariatRepository.findById(projectDTO.getSecretariat());
+        if (secretariat.isEmpty()) {
+            return new ResponseDTO(SECRETARIAT_DOES_NOT_EXIST);
+        }
 
-		Secretariat analizedSecretariat = secretariat.get();
-		boolean isProjectBudgetSufficient = analizedSecretariat.getProjectBudget() - projectDTO.getCost() >= 0;
+        Secretariat analizedSecretariat = secretariat.get();
+        boolean isProjectBudgetSufficient = analizedSecretariat.getProjectBudget() - projectDTO.getCost() >= 0;
 
-		if (!isProjectBudgetSufficient) {
-			return new ResponseDTO(INSUFFICIENT_PROJECT_BUDGET);
-		}
+        if (!isProjectBudgetSufficient) {
+            return new ResponseDTO(INSUFFICIENT_PROJECT_BUDGET);
+        }
 
-		this.adjustsProjectBudgetWhenProjectCreated(analizedSecretariat, projectDTO);
+        this.adjustsProjectBudgetWhenProjectCreated(analizedSecretariat, projectDTO);
 
-		this.storesProject(analizedSecretariat, projectDTO);
+        this.storesProject(analizedSecretariat, projectDTO);
 
-		return new ResponseDTO(SUCCESSFULLY_CREATED);
-	}
+        return new ResponseDTO(SUCCESSFULLY_CREATED);
+    }
 
-	public Project readProject(Long idProject) {
-		return projectRepository.findById(idProject).orElse(null);
-	}
+    public Project readProject(Long idProject) {
+        return projectRepository.findById(idProject).orElse(null);
+    }
 
-	public List<Project> listProjects() {
-		return (List<Project>) projectRepository.findAll();
-	}
+    public List<Project> listProjects() {
+        return (List<Project>) projectRepository.findAll();
+    }
 
-	public ResponseDTO updateProject(Long idProject, UpdateProjectDTO projectDTO) {
+    public ResponseDTO updateProject(Long idProject, UpdateProjectDTO projectDTO) {
 
-		Optional<Project> project = projectRepository.findById(idProject);
-		if (project.isEmpty()) {
-			return new ResponseDTO(DOES_NOT_EXIST);
-		}
+        Optional<Project> project = projectRepository.findById(idProject);
+        if (project.isEmpty()) {
+            return new ResponseDTO(DOES_NOT_EXIST);
+        }
 
-		Project analizedProject = project.get();
+        Project analizedProject = project.get();
 
-		this.storesUpdatedProjectDescription(analizedProject, projectDTO);
+        this.storesUpdatedProjectDescription(analizedProject, projectDTO);
 
-		return new ResponseDTO(SUCESSFULLY_UPDATED);
-	}
+        return new ResponseDTO(SUCESSFULLY_UPDATED);
+    }
 
-	public ResponseDTO finishProject(Long idProject, DoneProjectDTO projectDTO) {
-		
-		Optional<Project> project = projectRepository.findById(idProject);
-		
-		if (project.isEmpty() ) {
-			return new ResponseDTO(DOES_NOT_EXIST);
-		}
-		
-		Project analizedProject = project.get();
-		
-		boolean isFinishingDateValid = projectDTO.getFinishingDate().isAfter(analizedProject.getStartingDate());
-		if (!isFinishingDateValid) {
-			return new ResponseDTO(INVALID_DATE);
-		}
-		
-		this.storeFinishedProject(analizedProject, projectDTO);
-		
-		return new ResponseDTO(SUCESSFULLY_FINISHED);
-	}
+    public ResponseDTO finishProject(Long idProject, DoneProjectDTO projectDTO) {
 
-	private void storesProject(Secretariat secretariat, CreateProjectDTO projectDTO) {
+        Optional<Project> project = projectRepository.findById(idProject);
 
-		Project project = new Project();
+        if (project.isEmpty()) {
+            return new ResponseDTO(DOES_NOT_EXIST);
+        }
 
-		project.setName(projectDTO.getName());
-		project.setDescription(projectDTO.getDescription());
-		project.setCost(projectDTO.getCost());
-		project.setSecretariat(secretariat);
+        Project analizedProject = project.get();
 
-		projectRepository.save(project);
+        boolean isFinishingDateValid = projectDTO.getFinishingDate().isAfter(analizedProject.getStartingDate());
+        if (!isFinishingDateValid) {
+            return new ResponseDTO(INVALID_DATE);
+        }
 
-	}
+        this.storeFinishedProject(analizedProject, projectDTO);
 
-	private void storesUpdatedProjectDescription(Project updatedProject, UpdateProjectDTO projectDTO) {
+        return new ResponseDTO(SUCESSFULLY_FINISHED);
+    }
 
-		updatedProject.setDescription(projectDTO.getDescription());
-		projectRepository.save(updatedProject);
+    private void storesProject(Secretariat secretariat, CreateProjectDTO projectDTO) {
 
-	}
+        Project project = new Project();
 
-	private void storeFinishedProject(Project updatedProject, DoneProjectDTO projectDTO) {
+        project.setName(projectDTO.getName());
+        project.setDescription(projectDTO.getDescription());
+        project.setCost(projectDTO.getCost());
+        project.setSecretariat(secretariat);
 
-		updatedProject.setFinishingDate(projectDTO.getFinishingDate());
-		updatedProject.setFinished(true);
-		
-		projectRepository.save(updatedProject);
+        projectRepository.save(project);
 
-	}
-	
-	private void adjustsProjectBudgetWhenProjectCreated(Secretariat secretariat, CreateProjectDTO projectDTO) {
+    }
 
-		secretariat.setProjectBudget(secretariat.getProjectBudget() - projectDTO.getCost());
-		secretariatRepository.save(secretariat);
+    private void storesUpdatedProjectDescription(Project updatedProject, UpdateProjectDTO projectDTO) {
 
-	}
-	
+        updatedProject.setDescription(projectDTO.getDescription());
+        projectRepository.save(updatedProject);
+
+    }
+
+    private void storeFinishedProject(Project updatedProject, DoneProjectDTO projectDTO) {
+
+        updatedProject.setFinishingDate(projectDTO.getFinishingDate());
+        updatedProject.setFinished(true);
+
+        projectRepository.save(updatedProject);
+
+    }
+
+    private void adjustsProjectBudgetWhenProjectCreated(Secretariat secretariat, CreateProjectDTO projectDTO) {
+
+        secretariat.setProjectBudget(secretariat.getProjectBudget() - projectDTO.getCost());
+        secretariatRepository.save(secretariat);
+
+    }
+
 }

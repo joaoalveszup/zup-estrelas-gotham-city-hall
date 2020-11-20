@@ -53,6 +53,7 @@ public class Secretariat {
 	@JoinColumn(name = "id_secretariat")
 	private List<Employee> employees;
 	
+	// TODO: Boa, essa anotação faz diferença ;)
 	@JsonManagedReference
 	@OneToMany
 	@JoinColumn(name = "id_secretariat")

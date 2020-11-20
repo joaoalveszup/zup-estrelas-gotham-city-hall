@@ -15,69 +15,73 @@ import br.com.zup.estrelas.gothamcityhall.repository.SecretariatRepository;
 @Service
 public class SecretariatService implements ISecretariatService {
 
-	private static final String DOES_EXIST = "THIS SECRETARIAT ALREADY EXISTS";
-	private static final String DOES_NOT_EXIST = "THIS SECRETARIAT DOES NOT EXIST";
-	private static final String SUCCESSFULLY_CREATED = "THE SECRETARIAT WAS SUCCESSFULLY CREATED";
-	private static final String SUCESSFULLY_DELETED = "THE SECRETARIAT WAS SUCCESSFULLY DELETED";
-	private static final String SUCESSFULLY_UPDATED = "THE SECRETARIAT WAS SUCCESSFULLY UPDATED";
+    // TODO: Constantes, sempre bom.
+    private static final String DOES_EXIST = "THIS SECRETARIAT ALREADY EXISTS";
+    private static final String DOES_NOT_EXIST = "THIS SECRETARIAT DOES NOT EXIST";
+    private static final String SUCCESSFULLY_CREATED = "THE SECRETARIAT WAS SUCCESSFULLY CREATED";
+    private static final String SUCESSFULLY_DELETED = "THE SECRETARIAT WAS SUCCESSFULLY DELETED";
+    private static final String SUCESSFULLY_UPDATED = "THE SECRETARIAT WAS SUCCESSFULLY UPDATED";
 
-	@Autowired
-	SecretariatRepository secretariatRepository;
+    @Autowired
+    SecretariatRepository secretariatRepository;
 
-	public ResponseDTO createSecretariat(SecretariatDTO secretariatDTO) {
+    public ResponseDTO createSecretariat(SecretariatDTO secretariatDTO) {
 
-		Optional<Secretariat> secretariat = secretariatRepository.findByDepartment(secretariatDTO.getDepartment());
+        Optional<Secretariat> secretariat = secretariatRepository.findByDepartment(secretariatDTO.getDepartment());
 
-		if (secretariat.isEmpty()) {
+        if (secretariat.isEmpty()) {
 
-			Secretariat createdSecretariat = new Secretariat();
-			BeanUtils.copyProperties(secretariatDTO, createdSecretariat);
+            Secretariat createdSecretariat = new Secretariat();
+            BeanUtils.copyProperties(secretariatDTO, createdSecretariat);
 
-			secretariatRepository.save(createdSecretariat);
-			return new ResponseDTO(SUCCESSFULLY_CREATED);
-		}
+            secretariatRepository.save(createdSecretariat);
+            return new ResponseDTO(SUCCESSFULLY_CREATED);
+        }
 
-		return new ResponseDTO(DOES_EXIST);
-	}
+        return new ResponseDTO(DOES_EXIST);
+    }
 
-	public Secretariat readSecretariat(Long idSecretariat) {
-		return secretariatRepository.findById(idSecretariat).orElse(null);
-	}
+    public Secretariat readSecretariat(Long idSecretariat) {
+        return secretariatRepository.findById(idSecretariat).orElse(null);
+    }
 
-	public List<Secretariat> listSecretariats() {
-		return (List<Secretariat>) secretariatRepository.findAll();
-	}
+    public List<Secretariat> listSecretariats() {
+        return (List<Secretariat>) secretariatRepository.findAll();
+    }
 
-	public ResponseDTO updateSecretariat(Long idSecretariat, SecretariatDTO secretariatDTO) {
+    public ResponseDTO updateSecretariat(Long idSecretariat, SecretariatDTO secretariatDTO) {
 
-		Optional<Secretariat> secretariat = secretariatRepository.findById(idSecretariat);
+        Optional<Secretariat> secretariat = secretariatRepository.findById(idSecretariat);
 
-		if (secretariat.isPresent()) {
+        if (secretariat.isPresent()) {
 
-			Secretariat updatedSecretariat = secretariat.get();
+            Secretariat updatedSecretariat = secretariat.get();
 
-			updatedSecretariat.setDepartment(secretariatDTO.getDepartment());
-			updatedSecretariat.setProjectBudget(secretariatDTO.getProjectBudget());
-			updatedSecretariat.setPayrollBudget(secretariatDTO.getPayrollBudget());
-			updatedSecretariat.setAddress(secretariatDTO.getAddress());
-			updatedSecretariat.setSite(secretariatDTO.getSite());
-			updatedSecretariat.setEmail(secretariatDTO.getEmail());
+            // FIXME: Gabs, se você deixar que o department seja alterado pode acontecer
+            // o que nós previnimos na criação (haver duas secretarias para uma mesma área)
+            // que tal implementar essa validação aqui também?
+            updatedSecretariat.setDepartment(secretariatDTO.getDepartment());
+            updatedSecretariat.setProjectBudget(secretariatDTO.getProjectBudget());
+            updatedSecretariat.setPayrollBudget(secretariatDTO.getPayrollBudget());
+            updatedSecretariat.setAddress(secretariatDTO.getAddress());
+            updatedSecretariat.setSite(secretariatDTO.getSite());
+            updatedSecretariat.setEmail(secretariatDTO.getEmail());
 
-			secretariatRepository.save(updatedSecretariat);
-			return new ResponseDTO(SUCESSFULLY_UPDATED);
-		}
+            secretariatRepository.save(updatedSecretariat);
+            return new ResponseDTO(SUCESSFULLY_UPDATED);
+        }
 
-		return new ResponseDTO(DOES_NOT_EXIST);
-	}
+        return new ResponseDTO(DOES_NOT_EXIST);
+    }
 
-	public ResponseDTO deleteSecretariat(Long idSecretariat) {
+    public ResponseDTO deleteSecretariat(Long idSecretariat) {
 
-		if (secretariatRepository.existsById(idSecretariat)) {
-			secretariatRepository.deleteById(idSecretariat);
-			return new ResponseDTO(SUCESSFULLY_DELETED);
-		}
+        if (secretariatRepository.existsById(idSecretariat)) {
+            secretariatRepository.deleteById(idSecretariat);
+            return new ResponseDTO(SUCESSFULLY_DELETED);
+        }
 
-		return new ResponseDTO(DOES_NOT_EXIST);
-	}
+        return new ResponseDTO(DOES_NOT_EXIST);
+    }
 
 }
